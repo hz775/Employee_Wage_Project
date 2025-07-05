@@ -44,8 +44,35 @@ class Employee:
             self.check_attendance()
             if self.is_Present:
                 wage = self.calculate_wage_switch_case()
-                print(f"Day {day}: Present - Daily wage: ₹{wage}")
                 self.total_wage += wage
             else:
-                print(f"Day {day}: Absent - Daily wage: ₹0")
-        print(f"\nTotal Monthly Wage for {self.name}: ₹{self.total_wage}")
+                pass
+
+    
+    def calculate_monthly_wage_with_hour_limit(self, max_hours=100, max_days=20):
+        total_hours = 0
+        total_days = 0
+        self.total_wage = 0
+
+        while total_hours < max_hours and total_days < max_days:
+            self.check_attendance()
+
+            if self.is_Present:
+                work_hours = self.full_hours if self.worktype == "full-time" else self.part_time_hours
+
+                if total_hours + work_hours > max_hours:
+                    work_hours = max_hours - total_hours
+
+                daily_wage = work_hours * self.wage_per_hour
+                self.total_wage += daily_wage
+                total_hours += work_hours
+                total_days += 1
+
+                print(f"Day {total_days}: Present - Worked {work_hours} hrs, Earned ₹{daily_wage}")
+            else:
+                total_days += 1
+                print(f"Day {total_days}: Absent - Earned ₹0")
+
+        print(f"\nTotal Days Worked: {total_days}")
+        print(f"Total Hours Worked: {total_hours}")
+        print(f"Total Wages Earned by {self.name}: ₹{self.total_wage}")

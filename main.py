@@ -16,6 +16,9 @@ emp1.calculate_wage_switch_case()
 # usecase5
 emp1.calculate_monthly_wage()
 
+# usecase6
+emp1.calculate_monthly_wage_with_hour_limit()
+
 
 
 
