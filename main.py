@@ -19,6 +19,9 @@ emp1.calculate_monthly_wage()
 # usecase6
 emp1.calculate_monthly_wage_with_hour_limit()
 
+# usecase7
+Employee.compute_employee_wage("Hemanth", "full-time")
+
 
 
 
