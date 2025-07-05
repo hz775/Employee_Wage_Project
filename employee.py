@@ -1,30 +1,26 @@
 import random
 
 class Employee:
-    def __init__(self,name,worktype):
-        self.name=name
-        self.is_Present=False
+    def __init__(self, name, worktype):
+        self.name = name
+        self.is_Present = False
         self.wage_per_hour = 20
         self.full_hours = 8
         self.part_time_hours = 4
         self.worktype = worktype.lower()
+        self.total_wage = 0
 
-    
     def check_attendance(self):
-        attendance=random.randint(0,1)
-        if attendance==1:
-            self.is_Present=True
-            print(f"{self.name} is Present")
+        attendance = random.randint(0, 1)
+        if attendance == 1:
+            self.is_Present = True
         else:
-            self.is_Present=False
-            print(f"{self.name} is Absent")
+            self.is_Present = False
 
     def calculate_full_time_wage(self):
         if self.worktype == "full-time" and self.is_Present:
             return self.wage_per_hour * self.full_hours
         return 0
-
-    
 
     def calculate_part_time_wage(self):
         if self.worktype == "part-time" and self.is_Present:
@@ -33,15 +29,23 @@ class Employee:
 
     def calculate_wage_switch_case(self):
         if not self.is_Present:
-            print(f"{self.name} earns ₹0 today (Absent)")
-            return
+            return 0
 
         match self.worktype:
             case "full-time":
-                wage = self.calculate_full_time_wage()
-                print(f"{self.name}'s Full-Time Wage: ₹{wage}")
+                return self.calculate_full_time_wage()
             case "part-time":
-                wage = self.calculate_part_time_wage()
-                print(f"{self.name}'s Part-Time Wage: ₹{wage}")
+                return self.calculate_part_time_wage()
             case _:
-                print(f"Invalid work type for {self.name}")
+                return 0
+
+    def calculate_monthly_wage(self):
+        for day in range(1, 21):
+            self.check_attendance()
+            if self.is_Present:
+                wage = self.calculate_wage_switch_case()
+                print(f"Day {day}: Present - Daily wage: ₹{wage}")
+                self.total_wage += wage
+            else:
+                print(f"Day {day}: Absent - Daily wage: ₹0")
+        print(f"\nTotal Monthly Wage for {self.name}: ₹{self.total_wage}")
