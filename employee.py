@@ -15,13 +15,12 @@ class Employee:
         self.part_time_hours = 4
         self.worktype = worktype.lower()
         self.total_wage = 0
+        self.total_hours = 0
+        self.total_days = 0
 
     def check_attendance(self):
         attendance = random.randint(0, 1)
-        if attendance == 1:
-            self.is_Present = True
-        else:
-            self.is_Present = False
+        self.is_Present = attendance == 1
 
     def calculate_full_time_wage(self):
         if self.worktype == "full-time" and self.is_Present:
@@ -51,8 +50,6 @@ class Employee:
             if self.is_Present:
                 wage = self.calculate_wage_switch_case()
                 self.total_wage += wage
-            else:
-                pass
 
     def calculate_monthly_wage_with_hour_limit(self, max_hours=100, max_days=20):
         total_hours = 0
@@ -66,7 +63,6 @@ class Employee:
             if self.is_Present:
                 work_hours = self.full_hours if self.worktype == "full-time" else self.part_time_hours
 
-                
                 if total_hours + work_hours > max_hours:
                     work_hours = max_hours - total_hours
 
@@ -74,16 +70,46 @@ class Employee:
                 self.total_wage += daily_wage
                 total_hours += work_hours
 
-                print(f"Day {total_days}: Present - Worked {work_hours} hrs, Earned ₹{daily_wage}")
+                print(f"Day {total_days}: Present - Worked {work_hours} hrs, Earned Rs.{daily_wage}")
             else:
-                print(f"Day {total_days}: Absent - Earned ₹0")
+                print(f"Day {total_days}: Absent - Earned Rs.0")
 
         print(f"\nTotal Days Worked: {total_days}")
         print(f"Total Hours Worked: {total_hours}")
-        print(f"Total Wages Earned by {self.name}: ₹{self.total_wage}")
+        print(f"Total Wages Earned by {self.name}: Rs.{self.total_wage}")
 
+        self.total_days = total_days
+        self.total_hours = total_hours
         return self.total_wage
-    
+
+    def calculate_wage_till_limit(self):
+        lines = []
+        total_hours = 0
+        total_days = 0
+        self.total_wage = 0
+
+        while total_hours < self.max_hours and total_days < self.max_days:
+            self.check_attendance()
+            total_days += 1
+
+            if self.is_Present:
+                work_hours = self.full_hours if self.worktype == "full-time" else self.part_time_hours
+
+                if total_hours + work_hours > self.max_hours:
+                    work_hours = self.max_hours - total_hours
+
+                wage = work_hours * self.wage_per_hour
+                total_hours += work_hours
+                self.total_wage += wage
+                lines.append(f"Day {total_days}: Present - Worked {work_hours} hrs - Wage Rs.{wage}")
+            else:
+                lines.append(f"Day {total_days}: Absent - Wage Rs.0")
+
+        self.total_days = total_days
+        self.total_hours = total_hours
+        return lines
+
+
     @classmethod
     def compute_employee_wage(cls, name, worktype):
         emp = cls(name, worktype)
@@ -107,15 +133,3 @@ class Employee:
             total_wage += daily_hours * cls.wage_per_hour
 
         return total_wage
-
-
-        
-
-
-        
-        
-
-        
-        
-
-            

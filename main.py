@@ -1,29 +1,14 @@
-from employee import Employee
+from multiple_employee import MultiEmployeeWageCalculator
 
-# usecase1
-emp1=Employee("Hemanth","full-time")
-emp1.check_attendance()
+if __name__ == "__main__":
+    print("===== Multiple Employee Wage Report =====")
 
-# usecase2
-emp1.calculate_full_time_wage()
+    employees = [
+        ("Alice", "full-time"),
+        ("Bob", "part-time"),
+        ("Charlie", "full-time"),
+        ("Daisy", "part-time")
+    ]
 
-# usecase3
-emp1.calculate_part_time_wage() 
-
-# usecase4
-emp1.calculate_wage_switch_case()
-
-# usecase5
-emp1.calculate_monthly_wage()
-
-# usecase6
-emp1.calculate_monthly_wage_with_hour_limit()
-
-# usecase7
-Employee.compute_employee_wage("Hemanth", "full-time")
-
-
-
-
-
-
+    calculator = MultiEmployeeWageCalculator()
+    calculator.compute_wages_for_multiple_employees(employees)
