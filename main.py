@@ -1,14 +1,22 @@
-from multiple_employee import MultiEmployeeWageCalculator
+from multiple_company import MultiCompanyWageCalculator
 
 if __name__ == "__main__":
-    print("===== Multiple Employee Wage Report =====")
-
-    employees = [
-        ("Alice", "full-time"),
-        ("Bob", "part-time"),
-        ("Charlie", "full-time"),
-        ("Daisy", "part-time")
+    companies = [
+        {
+            "company": "TechCorp",
+            "employees": [
+                {"name": "Alice", "worktype": "full-time"},
+                {"name": "Bob", "worktype": "part-time"}
+            ]
+        },
+        {
+            "company": "AgriFoods",
+            "employees": [
+                {"name": "Charlie", "worktype": "full-time"},
+                {"name": "Daisy", "worktype": "part-time"}
+            ]
+        }
     ]
 
-    calculator = MultiEmployeeWageCalculator()
-    calculator.compute_wages_for_multiple_employees(employees)
+    calculator = MultiCompanyWageCalculator()
+    calculator.compute_all_company_employees(companies)
